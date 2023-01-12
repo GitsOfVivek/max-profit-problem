@@ -1,81 +1,50 @@
-import java.util.*;
+import java.util.Scanner;
 
 public class MaxProfitProblem {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
+        int time = sc.nextInt();
 
-        int[] result = maxProfit(n);
-        System.out.println("T " + result[2] + " : " + "P " + result[3] + " : " + "C " + result[1]);
-        System.out.println("Earnings : $" + result[0]);
-    }
-
-    public static int[] maxProfit(int time) {
-        if (time < 1) {
-            return new int[] { 0, 0, 0, 0 };
+        if (time < 5) {
+            System.out.println("T 0 : P 0 : C 0");
+            System.out.println("Earnings : $0");
+            return;
         }
-        int[] commercial = maxProfitInBuildProp(time, "C");
-        int[] theater = maxProfitInBuildProp(time, "T");
-        int[] pub = maxProfitInBuildProp(time, "P");
-        if (commercial[0] >= theater[0] && commercial[0] >= pub[0]) {
-            return commercial;
-        } else if (theater[0] >= commercial[0] && theater[0] >= pub[0]) {
-            return theater;
-        } else {
-            return pub;
-        }
-    }
 
-    public static int[] maxProfitInBuildProp(int time, String X) {
+        int theater = time / 5;
+        int totalEarning = 0;
+        int maxEarning = Integer.MIN_VALUE;
+        int result[] = new int[3];
 
-        int buildTimeC = 10;
-        int buildTimeT = 5;
-        int buildTimeP = 4;
-
-        int unitEarningC = 3000;
-        int unitEarningT = 1500;
-        int unitEarningP = 1000;
-
-        int noOfPropC = 0;
-        int noOfPropT = 0;
-        int noOfPropP = 0;
-
-        int totalProfit;
-        if (X == "C") {
-            time -= buildTimeC;
-            totalProfit = time * unitEarningC;
-            noOfPropC++;
-        } else if (X == "T") {
-            time -= buildTimeT;
-            totalProfit = time * unitEarningT;
-            noOfPropT++;
-        } else {
-            time -= buildTimeP;
-            totalProfit = time * unitEarningP;
-            noOfPropP++;
-        }
-        if (time < 1) {
-            return new int[] { 0, 0, 0, 0 };
-        } else {
-            while (time > buildTimeC || time > buildTimeT || time > buildTimeP) {
-                if (time > buildTimeC) {
-                    time -= buildTimeC;
-                    totalProfit += (time * unitEarningC);
-                    noOfPropC++;
-                }
-                if (time > buildTimeT) {
-                    time -= buildTimeT;
-                    totalProfit += (time * unitEarningT);
-                    noOfPropT++;
-                }
-                if (time > buildTimeP) {
-                    time -= buildTimeP;
-                    totalProfit += (time * unitEarningP);
-                    noOfPropP++;
-                }
+        while (theater >= 0) {
+            int leftTime = time - (theater * 5);
+            int pub = 0;
+            if (leftTime > 4) {
+                pub = leftTime / 4;
             }
-
-            return new int[] { totalProfit, noOfPropC, noOfPropT, noOfPropP };
+            totalEarning = findEarningTheater(time, theater, pub);
+            if (maxEarning < totalEarning) {
+                maxEarning = totalEarning;
+                result[0] = theater;
+                result[1] = pub;
+                result[2] = maxEarning;
+            }
+            theater--;
         }
+        System.out.println("T:" + result[0] + " P:" + result[1] + " C:0");
+        System.out.println("Earnings : " + result[2]);
+
+    }
+
+    public static int findEarningTheater(int time, int theater, int pub) {
+        int earning = 0;
+        for (int i = 1; i <= theater; i++) {
+            earning += (time - (i * 5)) * 1500;
+        }
+        time -= theater * 5;
+        for (int i = 1; i <= pub; i++) {
+            earning += (time - (i * 4)) * 1000;
+        }
+        return earning;
     }
 }
