@@ -6,39 +6,76 @@ public class MaxProfitProblem {
         int n = sc.nextInt();
 
         int[] result = maxProfit(n);
-        System.out.println("T " + result[0] + " : " + "P " + result[1] + " : " + "C " + result[2]);
-        System.out.println("Earnings : $" + result[3]);
+        System.out.println("T " + result[2] + " : " + "P " + result[3] + " : " + "C " + result[1]);
+        System.out.println("Earnings : $" + result[0]);
     }
 
     public static int[] maxProfit(int time) {
         if (time < 1) {
             return new int[] { 0, 0, 0, 0 };
         }
-        int[] profitInTheater = maxProfitInBuildProp(time, 5, 1500);
-        int[] profitInPub = maxProfitInBuildProp(time, 4, 1000);
-        int[] profitInCommercial = maxProfitInBuildProp(time, 10, 3000);
-        if (profitInTheater[0] >= profitInPub[0] && profitInTheater[0] >= profitInCommercial[0]) {
-            return new int[] { profitInTheater[1], 0, 0, profitInTheater[0] };
-        } else if (profitInPub[0] >= profitInTheater[0] && profitInPub[0] > profitInCommercial[0]) {
-            return new int[] { 0, profitInPub[1], 0, profitInPub[0] };
+        int[] commercial = maxProfitInBuildProp(time, "C");
+        int[] theater = maxProfitInBuildProp(time, "T");
+        int[] pub = maxProfitInBuildProp(time, "P");
+        if (commercial[0] >= theater[0] && commercial[0] >= pub[0]) {
+            return new int[] { commercial[0], commercial[1], commercial[2], commercial[3] };
+        } else if (theater[0] >= commercial[0] && theater[0] >= pub[0]) {
+            return new int[] { theater[0], theater[1], theater[2], theater[3] };
         } else {
-            return new int[] { 0, 0, profitInCommercial[1], profitInCommercial[0] };
+            return new int[] { pub[0], pub[1], pub[2], pub[3] };
         }
     }
 
-    public static int[] maxProfitInBuildProp(int time, int buildTime, int unitEarning) {
-        time -= buildTime;
-        int totalProfit = time * unitEarning;
-        int noOfProp = 1;
-        if (time < 1) {
-            return new int[] { 0, 0 };
+    public static int[] maxProfitInBuildProp(int time, String X) {
+
+        int buildTimeC = 10;
+        int buildTimeT = 5;
+        int buildTimeP = 4;
+
+        int unitEarningC = 3000;
+        int unitEarningT = 1500;
+        int unitEarningP = 1000;
+
+        int noOfPropC = 0;
+        int noOfPropT = 0;
+        int noOfPropP = 0;
+
+        int totalProfit;
+        if (X == "C") {
+            time -= buildTimeC;
+            totalProfit = time * unitEarningC;
+            noOfPropC++;
+        } else if (X == "T") {
+            time -= buildTimeT;
+            totalProfit = time * unitEarningT;
+            noOfPropT++;
         } else {
-            while (buildTime < time) {
-                time -= buildTime;
-                totalProfit += (time * unitEarning);
-                noOfProp++;
+            time -= buildTimeP;
+            totalProfit = time * unitEarningP;
+            noOfPropP++;
+        }
+        if (time < 1) {
+            return new int[] { 0, 0, 0, 0 };
+        } else {
+            while (time > buildTimeC || time > buildTimeT || time > buildTimeP) {
+                if (time > buildTimeC) {
+                    time -= buildTimeC;
+                    totalProfit += (time * unitEarningC);
+                    noOfPropC++;
+                }
+                if (time > buildTimeT) {
+                    time -= buildTimeT;
+                    totalProfit += (time * unitEarningT);
+                    noOfPropT++;
+                }
+                if (time > buildTimeP) {
+                    time -= buildTimeP;
+                    totalProfit += (time * unitEarningP);
+                    noOfPropP++;
+                }
             }
-            return new int[] { totalProfit, noOfProp };
+
+            return new int[] { totalProfit, noOfPropC, noOfPropT, noOfPropP };
         }
     }
 }
