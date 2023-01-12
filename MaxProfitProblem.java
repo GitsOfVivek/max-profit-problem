@@ -7,7 +7,7 @@ public class MaxProfitProblem {
 
         int[] result = maxProfit(n);
         System.out.println("T " + result[0] + " : " + "P " + result[1] + " : " + "C " + result[2]);
-        System.out.println("Earnings : " + result[3]);
+        System.out.println("Earnings : $" + result[3]);
     }
 
     public static int[] maxProfit(int time) {
