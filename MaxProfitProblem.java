@@ -18,11 +18,11 @@ public class MaxProfitProblem {
         int[] theater = maxProfitInBuildProp(time, "T");
         int[] pub = maxProfitInBuildProp(time, "P");
         if (commercial[0] >= theater[0] && commercial[0] >= pub[0]) {
-            return new int[] { commercial[0], commercial[1], commercial[2], commercial[3] };
+            return commercial;
         } else if (theater[0] >= commercial[0] && theater[0] >= pub[0]) {
-            return new int[] { theater[0], theater[1], theater[2], theater[3] };
+            return theater;
         } else {
-            return new int[] { pub[0], pub[1], pub[2], pub[3] };
+            return pub;
         }
     }
 
