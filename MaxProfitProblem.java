@@ -1,3 +1,8 @@
+// In this problem Commercial Park is redundant because
+// instead of making Commercial Park, I can make Theater
+// It will give more profit.
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MaxProfitProblem {
@@ -11,10 +16,10 @@ public class MaxProfitProblem {
             return;
         }
 
+        ArrayList<int[]> listOfResult = new ArrayList<>();
         int theater = time / 5;
         int totalEarning = 0;
         int maxEarning = Integer.MIN_VALUE;
-        int result[] = new int[3];
 
         while (theater >= 0) {
             int leftTime = time - (theater * 5);
@@ -23,17 +28,22 @@ public class MaxProfitProblem {
                 pub = leftTime / 4;
             }
             totalEarning = findEarningTheater(time, theater, pub);
-            if (maxEarning < totalEarning) {
+            int result[] = new int[3];
+            if (maxEarning <= totalEarning) {
                 maxEarning = totalEarning;
                 result[0] = theater;
                 result[1] = pub;
                 result[2] = maxEarning;
             }
+            listOfResult.add(result);
             theater--;
         }
-        System.out.println("T:" + result[0] + " P:" + result[1] + " C:0");
-        System.out.println("Earnings : " + result[2]);
-
+        for(int i = 0; i < listOfResult.size(); i++) {
+            if(listOfResult.get(i)[2] == maxEarning) {
+                System.out.println("T:" + listOfResult.get(i)[0] + " P:" + listOfResult.get(i)[1] + " C:0");
+            }
+        }
+        System.out.println("Earnings : $" + maxEarning);
     }
 
     public static int findEarningTheater(int time, int theater, int pub) {
