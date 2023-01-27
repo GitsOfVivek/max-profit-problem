@@ -24,18 +24,18 @@ public class MaxProfitProblem {
 
         int cPark = time / 10;
 
-        while(cPark >= 0) {
+        while (cPark >= 0) {
             int timeLeft1 = time - (cPark * 10);
             int theater = timeLeft1 / 5;
-            while(theater >= 0) {
+            while (theater >= 0) {
                 int timeLeft2 = timeLeft1 - (theater * 5);
                 int pub = 0;
-                if(timeLeft2 > 4) {
+                if (timeLeft2 > 4) {
                     pub = timeLeft2 / 4;
                 }
                 totalEarning = findEarning(time, cPark, theater, pub);
                 int[] result = new int[4];
-                if(maxEarning < totalEarning) {
+                if (maxEarning <= totalEarning) {
                     maxEarning = totalEarning;
                     result[0] = cPark;
                     result[1] = theater;
@@ -47,9 +47,10 @@ public class MaxProfitProblem {
             }
             cPark--;
         }
-        for(int i = 0; i < listOfResult.size(); i++) {
-            if(listOfResult.get(i)[3] == maxEarning) {
-                System.out.println("T:" + listOfResult.get(i)[1] + " P:" + listOfResult.get(i)[2] + " C:" + listOfResult.get(i)[0]);
+        for (int i = 0; i < listOfResult.size(); i++) {
+            if (listOfResult.get(i)[3] == maxEarning) {
+                System.out.println("T:" + listOfResult.get(i)[1] + " P:" + listOfResult.get(i)[2] + " C:"
+                        + listOfResult.get(i)[0]);
             }
         }
         System.out.println("Earnings : $" + maxEarning);
@@ -58,7 +59,7 @@ public class MaxProfitProblem {
 
     public static int findEarning(int time, int cPark, int theater, int pub) {
         int earning = 0;
-        for(int i = 1; i <= cPark; i++) {
+        for (int i = 1; i <= cPark; i++) {
             earning += (time - (i * 10)) * 6000;
         }
         time -= cPark * 10;
@@ -72,4 +73,3 @@ public class MaxProfitProblem {
         return earning;
     }
 }
-
