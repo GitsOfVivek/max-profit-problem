@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class MaxProfitProblem {
 
-    static int cParkTime = 10, cParkEarning = 3000;
+    static int cParkTime = 10, cParkEarning = 6000;
     static int theaterTime = 5, theaterEarning = 1500;
     static int pubTime = 4, pubEarning = 1000;
 
